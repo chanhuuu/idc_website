@@ -1,0 +1,118 @@
+#!/bin/bash
+/usr/bin/apt-get install -y  docker.io  docker-compose
+cd /root
+git clone https://github.com/zqiushi/docker-compose-mtproxy
+cd /root/docker-compose-mtproxy
+docker-compose up -d
+
+一：firewalld的基本使用
+
+启动： systemctl start firewalld
+
+关闭： systemctl stop firewalld
+
+查看状态： systemctl status firewalld
+
+开机禁用? ： systemctl disable firewalld
+
+开机启用? ：?systemctl enable firewalld
+
+安装net工具：yum install net-tools -y
+
+查看端口被占用情况：netstat -nap
+
+
+二：开启OR关闭端口
+
+添加：firewall-cmd?--zone=public?--add-port=80/tcp?--permanent ? ?（--permanent永久生效，没有此参数重启后失效）
+
+重启：firewall-cmd?--reload
+
+查看：firewall-cmd?--zone=?public?--query-port=80/tcp
+
+删除：firewall-cmd?--zone=?public?--remove-port=80/tcp?--permanent
+
+查看开放的端口：firewall-cmd --zone=public?--list-ports
+
+
+三：centos7安装docker（ce）
+
+1、sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+2、sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+3、sudo yum makecache fast
+
+4、sudo yum -y install docker-ce
+
+5、sudo systemctl start docker
+
+
+四：拉取并运行SS镜像
+
+docker pull oddrationale/docker-shadowsocks
+
+-m：加密方式
+
+-p : ss服务端口
+
+-k : 密码
+
+
+docker run -d --name ss -p 1234:1234 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1234 -k 11223344 -m aes-256-cfb
+?
+
+加速内核使用，安装，然后重启服务
+
+
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+
+
+systemctl start docker
+yum install git
+git clone https://github.com/zqiushi/ss
+sudo yum install epel-release
+yum install docker-compose
+cd ss
+sh init.sh
+重启
+docker-compose up -d
+
+
+
+
+
+
+
+
+
+
+
+1、docker安装
+yum install -y docker
+安装完之后查看是否安装成功：
+yum list installed | grep docker
+启动docker服务
+systemctl start docker
+查看docker是否启动成功
+systemctl status docker
+查看docker中的所有容器：
+docker ps
+二、在docker中安装ss服务端
+直接上命令：　　
+docker run -dt --name ss-server -p 6445:6445 mritd/shadowsocks -s "-s 0.0.0.0 -p 6445 -m aes-256-cfb -k 123456test --fast-open" --restart=always
+注意，-k后面是你后面再客户端使用的时候的密码。
+docker start ss       //ss-server
+systemctl enable docker.service
+https://blog.csdn.net/weixin_40760196/article/details/87926107
+https://www.cnblogs.com/cwp-bg/p/9376130.html
+https://www.jianshu.com/p/b07045ba9f7d
+程度
+
+docker run -dt --name ss-server -p 6445:6445 mritd/shadowsocks -s "-s 0.0.0.0 -p 6445 -m aes-256-cfb -k 123456test --fast-open"
+
+
+docker run -d --name ss -p 1026:1026 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1026 -k Happy2019 -m aes-256-cfb
+
+
+
+ docker run -d --name ss -p 1027:1026 -p 1028:1026 -p 1029:1026  -p 1030:1026  -p 1031:1026  -p 1032:1026 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 1026 -k Happy2019 -m aes-256-cfb
